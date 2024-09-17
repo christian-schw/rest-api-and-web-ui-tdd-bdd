@@ -34,13 +34,13 @@ class ProductFactory(factory.Factory):
     ## Add code to create Fake Products
     name = factory.Faker("name")
     description = factory.Faker("text")
-    price = factory.Faker("pricetag")
-    available = factory.Faker("pybool")
-    category = factory.FuzzyChoice(choices = [
+    price = FuzzyDecimal(0.5, 2000.0, 2)
+    available = FuzzyChoice(choices = [True, False])
+    category = FuzzyChoice(choices = [
         Category.UNKNOWN,
         Category.CLOTHS,
         Category.FOOD,
         Category.HOUSEWARES,
         Category.AUTOMOTIVE,
-        Category.TOOLS,
+        Category.TOOLS
     ])
