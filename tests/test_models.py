@@ -95,28 +95,56 @@ class TestProductModel(unittest.TestCase):
         self.assertIsNotNone(product.id)
         products = Product.all()
         self.assertEqual(len(products), 1)
-        # Check that it matches the original product
         new_product = products[0]
+        # Check that it matches the original product
         self.assertEqual(new_product.name, product.name)
         self.assertEqual(new_product.description, product.description)
         self.assertEqual(Decimal(new_product.price), product.price)
         self.assertEqual(new_product.available, product.available)
         self.assertEqual(new_product.category, product.category)
 
-    #
-    # ADD YOUR TEST CASES HERE
-    #
-
     def test_read_a_product(self):
         """Read a product from the database. Make sure that the correct product has been read."""
         product = ProductFactory()
+        logger.info(f"Product via ProductFactory created. Product: {vars(product)}")
         product.id = None
         product.create()
+        # Assert that it was assigned an id and shows up in the database
         self.assertIsNotNone(product.id)
         found_product = Product.find(product.id)
+        # Check that it matches the original product
         self.assertEqual(product.id, found_product.id)
         self.assertEqual(product.name, found_product.name)
         self.assertEqual(product.description, found_product.description)
         self.assertEqual(product.price, found_product.price)
         self.assertEqual(product.available, found_product.available)
         self.assertEqual(product.category, found_product.category)
+    
+    def test_update_a_product(self):
+        """Update a product in database"""
+        UPDATED_DESCRIPTION = "New description set"
+        product = ProductFactory()
+        logger.info(f"Product via ProductFactory created. Product: {vars(product)}")
+        product.id = None
+        product.create()
+        # Assert that it was assigned an id and shows up in the database
+        self.assertIsNotNone(product.id)
+        logger.info(f"Check whether same product after creation: {vars(product)}")
+        # Assert that new changes were made
+        original_id = product.id
+        product.description = UPDATED_DESCRIPTION
+        product.update()
+        self.assertEqual(product.id, original_id)
+        self.assertEqual(product.description, UPDATED_DESCRIPTION)
+        # Verify only one product in system
+        products = Product.all()
+        self.assertEqual(len(products), 1)
+        updated_product = products[0]
+        # Check that it matches the original product and has new changes
+        self.assertEqual(product.id, updated_product.id)
+        self.assertEqual(product.name, updated_product.name)
+        self.assertEqual(updated_product.description, UPDATED_DESCRIPTION)
+        self.assertEqual(product.price, updated_product.price)
+        self.assertEqual(product.available, updated_product.available)
+        self.assertEqual(product.category, updated_product.category)
+
