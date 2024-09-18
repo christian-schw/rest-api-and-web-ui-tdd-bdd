@@ -120,7 +120,3 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(product.price, found_product.price)
         self.assertEqual(product.available, found_product.available)
         self.assertEqual(product.category, found_product.category)
-
-        
-        
-        
