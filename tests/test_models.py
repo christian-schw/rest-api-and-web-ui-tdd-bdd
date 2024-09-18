@@ -104,7 +104,7 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(new_product.category, product.category)
 
     def test_read_a_product(self):
-        """Read a product from the database. Make sure that the correct product has been read."""
+        """Read a product from the database"""
         product = ProductFactory()
         logger.info("Product via ProductFactory created. Product: %s", vars(product))
         product.id = None
@@ -178,3 +178,25 @@ class TestProductModel(unittest.TestCase):
         # Check whether five products were created
         products = Product.all()
         self.assertEqual(len(products), 5)
+
+    def test_find_product_by_name(self):
+        """Find product by name"""
+        # Create five products and add them to database
+        for _ in range(5):
+            product = ProductFactory()
+            logger.info("Product via ProductFactory created. Product: %s", vars(product))
+            product.id = None
+            product.create()
+            # Assert that it was assigned an id and shows up in the database
+            self.assertIsNotNone(product.id)
+        # Assert number of occurences in database of name of first product
+        products = Product.all()
+        product = products[0]
+        first_product_name = product.name
+        expected_occurences = sum(p.name == first_product_name for p in products)
+        products_found = Product.find_by_name(first_product_name)
+        actual_occurences = products_found.count()
+        self.assertEqual(expected_occurences, actual_occurences)
+        # Assert that all products found have the desired name
+        for product in products_found:
+            self.assertEqual(product.name, first_product_name)
