@@ -140,7 +140,7 @@ class TestProductModel(unittest.TestCase):
         products = Product.all()
         self.assertEqual(len(products), 1)
         updated_product = products[0]
-        # Check that it matches the original product and has new changes
+        # Check whether it matches the original product and has new changes
         self.assertEqual(product.id, updated_product.id)
         self.assertEqual(product.name, updated_product.name)
         self.assertEqual(updated_product.description, UPDATED_DESCRIPTION)
@@ -158,6 +158,23 @@ class TestProductModel(unittest.TestCase):
         self.assertIsNotNone(product.id)
         # Verify only one product in system
         self.assertEqual(len(Product.all()), 1)
-        # Check that product has been deleted
+        # Check whether product has been deleted
         product.delete()
         self.assertEqual(len(Product.all()), 0)
+
+    def test_list_all_products(self):
+        """List all products in database"""
+        products = Product.all()
+        # Assert there are no products in database
+        self.assertEqual(len(products), 0)
+        # Create five products in database
+        for _ in range(5):
+            product = ProductFactory()
+            logger.info("Product via ProductFactory created. Product: %s", vars(product))
+            product.id = None
+            product.create()
+            # Assert that it was assigned an id and shows up in the database
+            self.assertIsNotNone(product.id)
+        # Check whether five products were created
+        products = Product.all()
+        self.assertEqual(len(products), 5)
