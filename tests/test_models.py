@@ -147,3 +147,17 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(product.price, updated_product.price)
         self.assertEqual(product.available, updated_product.available)
         self.assertEqual(product.category, updated_product.category)
+
+    def test_delete_a_product(self):
+        """Delete a product in database"""
+        product = ProductFactory()
+        logger.info("Product via ProductFactory created. Product: %s", vars(product))
+        product.id = None
+        product.create()
+        # Assert that it was assigned an id and shows up in the database
+        self.assertIsNotNone(product.id)
+        # Verify only one product in system
+        self.assertEqual(len(Product.all()), 1)
+        # Check that product has been deleted
+        product.delete()
+        self.assertEqual(len(Product.all()), 0)
