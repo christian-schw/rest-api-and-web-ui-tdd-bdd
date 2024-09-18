@@ -281,3 +281,9 @@ class TestProductModel(unittest.TestCase):
         # Assert that all products found have the desired price
         for product in products_found:
             self.assertEqual(product.price, first_product_price)
+        # Assert conversion if price is given as a string and contains ' "'.
+        # Actual occurences should be the same as before / expected occurences.
+        str_first_product_price = " \"" + str(first_product_price) + " \" \""
+        products_found = Product.find_by_price(str_first_product_price)
+        actual_occurences = products_found.count()
+        self.assertEqual(expected_occurences, actual_occurences)
