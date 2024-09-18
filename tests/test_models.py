@@ -106,7 +106,7 @@ class TestProductModel(unittest.TestCase):
     def test_read_a_product(self):
         """Read a product from the database. Make sure that the correct product has been read."""
         product = ProductFactory()
-        logger.info(f"Product via ProductFactory created. Product: {vars(product)}")
+        logger.info("Product via ProductFactory created. Product: %s", {vars(product)})
         product.id = None
         product.create()
         # Assert that it was assigned an id and shows up in the database
@@ -119,17 +119,17 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(product.price, found_product.price)
         self.assertEqual(product.available, found_product.available)
         self.assertEqual(product.category, found_product.category)
-    
+
     def test_update_a_product(self):
         """Update a product in database"""
-        UPDATED_DESCRIPTION = "New description set"
+        UPDATED_DESCRIPTION = "New description set"  # pylint: disable=invalid-name
         product = ProductFactory()
-        logger.info(f"Product via ProductFactory created. Product: {vars(product)}")
+        logger.info("Product via ProductFactory created. Product: %s", {vars(product)})
         product.id = None
         product.create()
         # Assert that it was assigned an id and shows up in the database
         self.assertIsNotNone(product.id)
-        logger.info(f"Check whether same product after creation: {vars(product)}")
+        logger.info("Check whether same product after creation: %s", {vars(product)})
         # Assert that new changes were made
         original_id = product.id
         product.description = UPDATED_DESCRIPTION
@@ -147,4 +147,3 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(product.price, updated_product.price)
         self.assertEqual(product.available, updated_product.available)
         self.assertEqual(product.category, updated_product.category)
-
