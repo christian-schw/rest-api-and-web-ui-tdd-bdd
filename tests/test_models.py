@@ -106,7 +106,7 @@ class TestProductModel(unittest.TestCase):
     def test_read_a_product(self):
         """Read a product from the database. Make sure that the correct product has been read."""
         product = ProductFactory()
-        logger.info("Product via ProductFactory created. Product: %s", {vars(product)})
+        logger.info("Product via ProductFactory created. Product: %s", vars(product))
         product.id = None
         product.create()
         # Assert that it was assigned an id and shows up in the database
@@ -124,12 +124,12 @@ class TestProductModel(unittest.TestCase):
         """Update a product in database"""
         UPDATED_DESCRIPTION = "New description set"  # pylint: disable=invalid-name
         product = ProductFactory()
-        logger.info("Product via ProductFactory created. Product: %s", {vars(product)})
+        logger.info("Product via ProductFactory created. Product: %s", vars(product))
         product.id = None
         product.create()
         # Assert that it was assigned an id and shows up in the database
         self.assertIsNotNone(product.id)
-        logger.info("Check whether same product after creation: %s", {vars(product)})
+        logger.info("Check whether same product after creation: %s", vars(product))
         # Assert that new changes were made
         original_id = product.id
         product.description = UPDATED_DESCRIPTION
