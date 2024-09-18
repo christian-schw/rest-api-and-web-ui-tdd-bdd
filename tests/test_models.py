@@ -244,3 +244,36 @@ class TestProductModel(unittest.TestCase):
         # Assert that all products found have the desired category
         for product in products_found:
             self.assertEqual(product.category, first_product_category)
+
+    def test_find_product_by_price(self):
+        """Find product by price"""
+        # Create thirty products and add them to database
+        for _ in range(10):
+            product = ProductFactory()
+            logger.info("Product via ProductFactory created. Product: %s", vars(product))
+            product.id = None
+            product.create()
+            # Assert that it was assigned an id and shows up in the database
+            self.assertIsNotNone(product.id)
+        # Add at least 2 products that have the same price as the first product.
+        # Reason: Wide range of possibilities -> several products rarely have the same price.
+        products = Product.all()
+        product = products[0]
+        first_product_price = product.price
+        for _ in range(2):
+            product = ProductFactory()
+            logger.info("Product via ProductFactory created. Product: %s", vars(product))
+            product.id = None
+            product.price = first_product_price
+            product.create()
+            # Assert that it was assigned an id and shows up in the database
+            self.assertIsNotNone(product.id)
+        # Assert number of occurences in database of price of first product
+        products = Product.all()
+        expected_occurences = sum(p.price == first_product_price for p in products)
+        products_found = Product.find_by_price(first_product_price)
+        actual_occurences = products_found.count()
+        self.assertEqual(expected_occurences, actual_occurences)
+        # Assert that all products found have the desired price
+        for product in products_found:
+            self.assertEqual(product.price, first_product_price)
