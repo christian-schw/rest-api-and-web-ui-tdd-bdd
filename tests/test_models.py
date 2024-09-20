@@ -166,6 +166,18 @@ class TestProductModel(unittest.TestCase):
         product.delete()
         self.assertEqual(len(Product.all()), 0)
 
+    def test_deserialize_invalid_type_available(self):
+        """It should occur error if attr 'available' has wrong type"""
+        data = {
+            "name": "Test",
+            "description": "Test",
+            "price": 4.69,
+            "available": 5
+        }
+        product = Product()
+        with self.assertRaises(DataValidationError):
+            product.deserialize(data)
+
     def test_list_all_products(self):
         """List all products in database"""
         products = Product.all()
