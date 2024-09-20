@@ -117,11 +117,11 @@ def read_product(product_id: int) -> str:
     if product is None:
         app.logger.info("**No** product with ID %s found.", product_id)
         response_status = status.HTTP_404_NOT_FOUND
+        message = f"Status Code: {status.HTTP_404_NOT_FOUND}"
     else:
         app.logger.info("Product with ID %s found.", product_id)
         response_status = status.HTTP_200_OK
-
-    message = product.serialize()
+        message = product.serialize()
 
     return jsonify(message), response_status
 
