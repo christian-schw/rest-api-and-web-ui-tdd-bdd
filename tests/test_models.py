@@ -178,20 +178,18 @@ class TestProductModel(unittest.TestCase):
         with self.assertRaises(DataValidationError):
             product.deserialize(data)
 
-    # TODO: Implement unittest.  # pylint: disable=fixme
-    #       Don't know how to raise AttributeError in this method.
-    # def test_deserialize_invalid_attribute_reference(self):
-    #     """It should occur error if an invalid attr reference is made"""
-    #     data = {
-    #         "name": "Test",
-    #         #"description": "Test",
-    #         "price": 5.47,
-    #         "available": True,
-    #         "category": "Test"
-    #     }
-    #     product = Product()
-    #     with self.assertRaises(DataValidationError):
-    #         product.deserialize(data)
+    def test_deserialize_invalid_attribute_reference(self):
+        """It should occur error if an invalid attr reference is made"""
+        data = {
+            "name": "Test",
+            "description": "Test",
+            "price": 5.47,
+            "available": True,
+            "category": "Attribute Error / DataValidationError"
+        }
+        product = Product()
+        with self.assertRaises(DataValidationError):
+            product.deserialize(data)
 
     def test_deserialize_invalid_type_of_input(self):
         """
