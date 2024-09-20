@@ -168,7 +168,12 @@ class TestProductRoutes(TestCase):
         product = self._create_products()[0]
         response = self.client.get(f"{BASE_URL}/{product.id}")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        read_product = response.get_json()
+        response_json = response.get_json()
+        read_product = Product()
+        read_product.deserialize(response_json)
+        # Set ID separately because deserialize()
+        # doesn't deserialize ID of product
+        read_product.id = response_json["id"]
         self.assertEqual(read_product.id, product.id)
         self.assertEqual(read_product.name, product.name)
         self.assertEqual(read_product.description, product.description)

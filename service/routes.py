@@ -102,13 +102,29 @@ def create_products():
 # PLACE YOUR CODE TO LIST ALL PRODUCTS HERE
 #
 
+
 ######################################################################
 # R E A D   A   P R O D U C T
 ######################################################################
+@app.route("/products/<int:product_id>", methods=["GET"])
+def read_product(product_id: int) -> str:
+    """
+    Read a product depending on the supplied product ID.
+    """
+    app.logger.info("Request to Read a Product...")
+    product = Product.find(product_id)
 
-#
-# PLACE YOUR CODE HERE TO READ A PRODUCT
-#
+    if product is None:
+        app.logger.info("**No** product with ID %s found.", product_id)
+        response_status = status.HTTP_404_NOT_FOUND
+    else:
+        app.logger.info("Product with ID %s found.", product_id)
+        response_status = status.HTTP_200_OK
+
+    message = product.serialize()
+
+    return jsonify(message), response_status
+
 
 ######################################################################
 # U P D A T E   A   P R O D U C T
@@ -118,10 +134,10 @@ def create_products():
 # PLACE YOUR CODE TO UPDATE A PRODUCT HERE
 #
 
+
 ######################################################################
 # D E L E T E   A   P R O D U C T
 ######################################################################
-
 
 #
 # PLACE YOUR CODE TO DELETE A PRODUCT HERE
