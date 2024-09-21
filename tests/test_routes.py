@@ -310,7 +310,10 @@ class TestProductRoutes(TestCase):
             self.assertEqual(product["name"], first_product_name)
 
     def test_list_by_name_no_products_found(self):
-        """It should return no list but a status code when no products with requested name found"""
+        """
+        It should return no list but a status code 
+        when no products with requested name found
+        """
         test_name = "blabla"
         response = self.client.get(
             BASE_URL,
@@ -318,6 +321,22 @@ class TestProductRoutes(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(len(response.get_data()), 0)
+
+    # ----------------------------------------------------------
+    # TESTS: List by category
+    # ----------------------------------------------------------
+    def test_list_by_category(self):
+        """It should return a list of products with requested category"""
+        # TODO: Implement  # pylint: disable=W0511
+        self.assertEqual(0, 1)
+
+    def test_list_by_category_no_products_found(self):
+        """
+        It should return no list but a status code 
+        when no products with requested category found
+        """
+        # TODO: Implement  # pylint: disable=W0511
+        self.assertEqual(0, 1)
 
     ######################################################################
     # Utility functions
