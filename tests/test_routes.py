@@ -109,7 +109,7 @@ class TestProductRoutes(TestCase):
         self.assertEqual(data['message'], 'OK')
 
     # ----------------------------------------------------------
-    # TESTS: Create Product
+    # TESTS: Create a product
     # ----------------------------------------------------------
     def test_create_product(self):
         """It should Create a new Product"""
@@ -164,7 +164,7 @@ class TestProductRoutes(TestCase):
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ----------------------------------------------------------
-    # TESTS: Read Product
+    # TESTS: Read a product
     # ----------------------------------------------------------
     def test_read_product(self):
         """It should read a product"""
@@ -191,7 +191,7 @@ class TestProductRoutes(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     # ----------------------------------------------------------
-    # TESTS: Update Product
+    # TESTS: Update a product
     # ----------------------------------------------------------
     def test_update_product(self):
         """It should update a product"""
@@ -239,7 +239,7 @@ class TestProductRoutes(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     # ----------------------------------------------------------
-    # TESTS: Delete Product
+    # TESTS: Delete a product
     # ----------------------------------------------------------
     def test_delete_product(self):
         """It should delete a product"""
@@ -269,6 +269,16 @@ class TestProductRoutes(TestCase):
         product.id = id_not_found
         response = self.client.delete(f"{BASE_URL}/{product.id}", json=product.serialize())
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    # ----------------------------------------------------------
+    # TESTS: List all products
+    # ----------------------------------------------------------
+    def test_list_all_products_no_products_found(self):
+        """It should return error code when no products in database"""
+        response = self.client.get(f"{BASE_URL}")
+        self.assertEqual(len(Product.all()), 0)
+        self.assertEqual(response.get_data(as_text=True), "[]")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     ######################################################################
     # Utility functions
