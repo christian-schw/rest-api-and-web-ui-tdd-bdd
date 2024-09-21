@@ -109,7 +109,7 @@ class TestProductRoutes(TestCase):
         self.assertEqual(data['message'], 'OK')
 
     # ----------------------------------------------------------
-    # TEST CREATE
+    # TESTS: Create Product
     # ----------------------------------------------------------
     def test_create_product(self):
         """It should Create a new Product"""
@@ -163,6 +163,9 @@ class TestProductRoutes(TestCase):
         response = self.client.post(BASE_URL, data={}, content_type="plain/text")
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
+    # ----------------------------------------------------------
+    # TESTS: Read Product
+    # ----------------------------------------------------------
     def test_read_product(self):
         """It should read a product"""
         product = self._create_products()[0]
@@ -187,6 +190,9 @@ class TestProductRoutes(TestCase):
         response = self.client.get(f"{BASE_URL}/{invalid_product_id}")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    # ----------------------------------------------------------
+    # TESTS: Update Product
+    # ----------------------------------------------------------
     def test_update_product(self):
         """It should update a product"""
         product = self._create_products()[0]
@@ -232,6 +238,9 @@ class TestProductRoutes(TestCase):
         response = self.client.put(f"{BASE_URL}/{product.id}", json=product.serialize())
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    # ----------------------------------------------------------
+    # TESTS: Delete Product
+    # ----------------------------------------------------------
     def test_delete_product(self):
         """It should delete a product"""
         product = self._create_products()[0]
