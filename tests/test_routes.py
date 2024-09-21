@@ -214,8 +214,13 @@ class TestProductRoutes(TestCase):
         self.assertEqual(updated_product.category, product.category)
 
     def test_update_product_wrong_content_type(self):
+        """It should not update a product with wrong content-type"""
+        response = self.client.put(f"{BASE_URL}/{1}", data={}, content_type="plain/text")
+        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+    def test_update_product_no_content_type(self):
         """It should not update a product with no content-type"""
-        response = self.client.post(BASE_URL, data={}, content_type="plain/text")
+        response = self.client.put(f"{BASE_URL}/{1}", data="bad data")
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     ######################################################################
