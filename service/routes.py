@@ -130,9 +130,25 @@ def read_product(product_id: int) -> str:
 # U P D A T E   A   P R O D U C T
 ######################################################################
 
-#
-# PLACE YOUR CODE TO UPDATE A PRODUCT HERE
-#
+@app.route("/products/<int:product_id>", methods=["PUT"])
+def update_product(product_id: int):
+    """
+    Update a product depending on the supplied product ID.
+    """
+    app.logger.info("Request to Update a Product...")
+    check_content_type("application/json")
+
+    data = request.get_json()
+    app.logger.info("Processing: %s", data)
+    product = Product()
+    product.deserialize(data)
+    product.id = product_id
+    product.update()
+    app.logger.info("Product with id [%s] updated!", product.id)
+
+    message = product.serialize()
+
+    return jsonify(message), status.HTTP_200_OK
 
 
 ######################################################################
