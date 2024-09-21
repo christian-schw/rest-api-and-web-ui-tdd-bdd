@@ -232,10 +232,29 @@ class TestProductRoutes(TestCase):
         response = self.client.put(f"{BASE_URL}/{product.id}", json=product.serialize())
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_delete_product(self):
+        """It should delete a product"""
+        # TODO: Implement  # pylint: disable=W0511
+        self.assertEqual(0, 1)
+
+    def test_delete_product_wrong_content_type(self):
+        """It should not delete a product with wrong content-type"""
+        # TODO: Implement  # pylint: disable=W0511
+        self.assertEqual(0, 1)
+
+    def test_delete_product_no_content_type(self):
+        """It should not delete a product with no content-type"""
+        # TODO: Implement  # pylint: disable=W0511
+        self.assertEqual(0, 1)
+
+    def test_delete_product_id_not_found(self):
+        """It should not delete a product if product ID not found"""
+        # TODO: Implement  # pylint: disable=W0511
+        self.assertEqual(0, 1)
+
     ######################################################################
     # Utility functions
     ######################################################################
-
     def get_product_count(self):
         """save the current number of products"""
         response = self.client.get(BASE_URL)
