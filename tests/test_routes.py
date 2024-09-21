@@ -234,8 +234,11 @@ class TestProductRoutes(TestCase):
 
     def test_delete_product(self):
         """It should delete a product"""
-        # TODO: Implement  # pylint: disable=W0511
-        self.assertEqual(0, 1)
+        product = self._create_products()[0]
+        response = self.client.delete(f"{BASE_URL}/{product.id}", json=product.serialize())
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.get_json(), "")
+        self.assertEqual(Product.find(product.id), None)
 
     def test_delete_product_wrong_content_type(self):
         """It should not delete a product with wrong content-type"""
