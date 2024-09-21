@@ -159,7 +159,28 @@ def update_product(product_id: int):
 ######################################################################
 # D E L E T E   A   P R O D U C T
 ######################################################################
+@app.route("/products/<int:product_id>", methods=["DELETE"])
+def delete_product(product_id: int):
+    """
+    Delete a product depending on the supplied product ID.
+    """
+    app.logger.info("Request to Delete a Product with id %s...", product_id)
+    check_content_type("application/json")
 
-#
-# PLACE YOUR CODE TO DELETE A PRODUCT HERE
-#
+    # Only delete product if it exists on database!
+    product = Product.find(product_id)
+
+    if product is None:
+        app.logger.info("**No** product with ID %s found.", product_id)
+        response_status = status.HTTP_404_NOT_FOUND
+        message = f"Status Code: {status.HTTP_404_NOT_FOUND}"
+    else:
+        app.logger.info("Product with ID %s found.", product_id)
+        response_status = status.HTTP_204_NO_CONTENT
+        product.deserialize(request.get_json())
+        product.id = product_id
+        product.delete()
+        app.logger.info("Product with id [%s] deleted!", product.id)
+        message = ""
+
+    return jsonify(message), response_status

@@ -237,7 +237,8 @@ class TestProductRoutes(TestCase):
         product = self._create_products()[0]
         response = self.client.delete(f"{BASE_URL}/{product.id}", json=product.serialize())
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(response.get_json(), "")
+        # Data of response as text. Otherwise, it returns 'b""' and not just '""'
+        self.assertEqual(response.get_data(as_text=True), "")
         self.assertEqual(Product.find(product.id), None)
 
     def test_delete_product_wrong_content_type(self):
