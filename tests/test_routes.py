@@ -244,8 +244,8 @@ class TestProductRoutes(TestCase):
 
     def test_delete_product_no_content_type(self):
         """It should not delete a product with no content-type"""
-        # TODO: Implement  # pylint: disable=W0511
-        self.assertEqual(0, 1)
+        response = self.client.delete(f"{BASE_URL}/{1}", data="bad data")
+        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     def test_delete_product_id_not_found(self):
         """It should not delete a product if product ID not found"""
