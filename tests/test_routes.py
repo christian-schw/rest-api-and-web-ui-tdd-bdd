@@ -249,8 +249,12 @@ class TestProductRoutes(TestCase):
 
     def test_delete_product_id_not_found(self):
         """It should not delete a product if product ID not found"""
-        # TODO: Implement  # pylint: disable=W0511
-        self.assertEqual(0, 1)
+        product = self._create_products()[0]
+        id_not_found = product.id + 1
+        self.assertNotEqual(product.id, id_not_found)
+        product.id = id_not_found
+        response = self.client.delete(f"{BASE_URL}/{product.id}", json=product.serialize())
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     ######################################################################
     # Utility functions
