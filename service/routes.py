@@ -129,7 +129,6 @@ def read_product(product_id: int) -> str:
 ######################################################################
 # U P D A T E   A   P R O D U C T
 ######################################################################
-
 @app.route("/products/<int:product_id>", methods=["PUT"])
 def update_product(product_id: int):
     """
@@ -143,12 +142,22 @@ def update_product(product_id: int):
     product = Product()
     product.deserialize(data)
     product.id = product_id
-    product.update()
-    app.logger.info("Product with id [%s] updated!", product.id)
 
-    message = product.serialize()
+    # Only update product if it exists on database!
+    found_product = Product.find(product.id)
 
-    return jsonify(message), status.HTTP_200_OK
+    if found_product is None:
+        app.logger.info("**No** product with ID %s found.", product.id)
+        response_status = status.HTTP_404_NOT_FOUND
+        message = f"Status Code: {status.HTTP_404_NOT_FOUND}"
+    else:
+        app.logger.info("Product with ID %s found.", product.id)
+        response_status = status.HTTP_200_OK
+        product.update()
+        app.logger.info("Product with id [%s] updated!", product.id)
+        message = product.serialize()
+
+    return jsonify(message), response_status
 
 
 ######################################################################
