@@ -28,6 +28,7 @@ import os
 import logging
 from decimal import Decimal
 from unittest import TestCase
+from urllib.parse import quote_plus
 from service import app
 from service.common import status
 from service.models import db, init_db, Product
@@ -293,9 +294,20 @@ class TestProductRoutes(TestCase):
     # TESTS: List by name
     # ----------------------------------------------------------
     def test_list_by_name(self):
-        """It should return a list of products with desired name"""
-        # TODO: Implement  # pylint: disable=W0511
-        self.assertEqual(0, 1)
+        """It should return a list of products with requested name"""
+        products = self._create_products(10)
+        # First name used as a baseline for validation
+        first_product_name = products[0].name
+        response = self.client.get(
+            BASE_URL,
+            query_string=f"name={quote_plus(first_product_name)}"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response_data = response.get_json()
+        self.assertEqual(len(response_data), len(products))
+        # Every product from query should have the requested name
+        for product in response_data:
+            self.assertEqual(product["name"], first_product_name)
 
     def test_list_by_name_no_products_found(self):
         """It should return no list but an error code when no products found"""
