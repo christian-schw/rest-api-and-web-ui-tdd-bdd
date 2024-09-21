@@ -97,17 +97,30 @@ def create_products():
 ######################################################################
 # L I S T   A L L   P R O D U C T S
 ######################################################################
+@app.route("/products", methods=["GET"])
+def list_all_products():
+    """
+    List all products in database
+    """
+    app.logger.info("Request to List all Products...")
+    product_list = Product.all()
+    if len(product_list) == 0:
+        app.logger.info("**No** products in database.")
+        response_status = status.HTTP_204_NO_CONTENT
+        message = []
+    else:
+        app.logger.info("Found products in database.")
+        response_status = status.HTTP_200_OK
+        message = [product.serialize() for product in product_list]
 
-#
-# PLACE YOUR CODE TO LIST ALL PRODUCTS HERE
-#
+    return jsonify(message), response_status
 
 
 ######################################################################
 # R E A D   A   P R O D U C T
 ######################################################################
 @app.route("/products/<int:product_id>", methods=["GET"])
-def read_product(product_id: int) -> str:
+def read_product(product_id: int):
     """
     Read a product depending on the supplied product ID.
     """

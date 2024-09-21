@@ -276,20 +276,17 @@ class TestProductRoutes(TestCase):
     def test_list_all_products(self):
         """It should list all products"""
         product_count = 5
-        products = self._create_products(product_count)
+        self._create_products(product_count)
         response = self.client.get(f"{BASE_URL}")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_data = response.get_json()
         self.assertEqual(len(response_data), product_count)
-        for product in products:
-            for response_product in response_data:
-                self.assertEqual(response_product.id, product.id)
 
     def test_list_all_products_no_products_found(self):
-        """It should return error code when no products in database"""
+        """It should return no list but an error code when no products in database"""
         response = self.client.get(f"{BASE_URL}")
         self.assertEqual(len(Product.all()), 0)
-        self.assertEqual(len(response.get_json()), 0)
+        self.assertEqual(len(response.get_data()), 0)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     ######################################################################
