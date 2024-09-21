@@ -249,6 +249,7 @@ class TestProductRoutes(TestCase):
         # Data of response as text. Otherwise, it returns 'b""' and not just '""'
         self.assertEqual(response.get_data(as_text=True), "")
         self.assertEqual(Product.find(product.id), None)
+        self.assertEqual(len(Product.all()), 0)
 
     def test_delete_product_wrong_content_type(self):
         """It should not delete a product with wrong content-type"""
