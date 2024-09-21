@@ -186,7 +186,7 @@ class TestProductRoutes(TestCase):
         invalid_product_id = 0
         response = self.client.get(f"{BASE_URL}/{invalid_product_id}")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_update_product(self):
         """It should update a product"""
         product = self._create_products()[0]
@@ -200,7 +200,6 @@ class TestProductRoutes(TestCase):
         product.deserialize(data)
         response = self.client.put(f"{BASE_URL}/{product.id}", json=product.serialize())
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        logging.debug("JSON Response: %s", response.get_json())
         response_json = response.get_json()
         updated_product = Product()
         updated_product.deserialize(response_json)
@@ -213,8 +212,6 @@ class TestProductRoutes(TestCase):
         self.assertEqual(updated_product.price, product.price)
         self.assertEqual(updated_product.available, product.available)
         self.assertEqual(updated_product.category, product.category)
-
-
 
     ######################################################################
     # Utility functions
