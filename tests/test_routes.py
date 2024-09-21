@@ -223,6 +223,15 @@ class TestProductRoutes(TestCase):
         response = self.client.put(f"{BASE_URL}/{1}", data="bad data")
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
+    def test_update_product_id_not_found(self):
+        """It should not update a product if product ID not found"""
+        product = self._create_products()[0]
+        id_not_found = product.id + 1
+        self.assertNotEqual(product.id, id_not_found)
+        product.id = id_not_found
+        response = self.client.put(f"{BASE_URL}/{product.id}", json=product.serialize())
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
     ######################################################################
     # Utility functions
     ######################################################################
