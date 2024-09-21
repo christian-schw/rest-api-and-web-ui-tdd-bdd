@@ -134,25 +134,21 @@ def update_product(product_id: int):
     """
     Update a product depending on the supplied product ID.
     """
-    app.logger.info("Request to Update a Product...")
+    app.logger.info("Request to Update a Product with id %s...", product_id)
     check_content_type("application/json")
 
-    data = request.get_json()
-    app.logger.info("Processing: %s", data)
-    product = Product()
-    product.deserialize(data)
-    product.id = product_id
-
     # Only update product if it exists on database!
-    found_product = Product.find(product.id)
+    product = Product.find(product_id)
 
-    if found_product is None:
-        app.logger.info("**No** product with ID %s found.", product.id)
+    if product is None:
+        app.logger.info("**No** product with ID %s found.", product_id)
         response_status = status.HTTP_404_NOT_FOUND
         message = f"Status Code: {status.HTTP_404_NOT_FOUND}"
     else:
-        app.logger.info("Product with ID %s found.", product.id)
+        app.logger.info("Product with ID %s found.", product_id)
         response_status = status.HTTP_200_OK
+        product.deserialize(request.get_json())
+        product.id = product_id
         product.update()
         app.logger.info("Product with id [%s] updated!", product.id)
         message = product.serialize()
