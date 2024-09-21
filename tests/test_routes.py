@@ -311,7 +311,7 @@ class TestProductRoutes(TestCase):
 
     def test_list_by_name_no_products_found(self):
         """
-        It should return no list but a status code 
+        It should return no list but a status code
         when no products with requested name found
         """
         test_name = "blabla"
@@ -332,8 +332,24 @@ class TestProductRoutes(TestCase):
 
     def test_list_by_category_no_products_found(self):
         """
-        It should return no list but a status code 
+        It should return no list but a status code
         when no products with requested category found
+        """
+        # TODO: Implement  # pylint: disable=W0511
+        self.assertEqual(0, 1)
+
+    # ----------------------------------------------------------
+    # TESTS: List by availability
+    # ----------------------------------------------------------
+    def test_list_by_availability(self):
+        """It should return a list of products with requested availability"""
+        # TODO: Implement  # pylint: disable=W0511
+        self.assertEqual(0, 1)
+
+    def test_list_by_availability_no_products_found(self):
+        """
+        It should return no list but a status code
+        when no products with requested availability found
         """
         # TODO: Implement  # pylint: disable=W0511
         self.assertEqual(0, 1)
