@@ -18,6 +18,7 @@
 """
 Product Store Service with UI
 """
+import logging
 from flask import jsonify, request, abort
 from flask import url_for  # noqa: F401 pylint: disable=unused-import
 from service.models import Product
@@ -95,43 +96,48 @@ def create_products():
 
 
 ######################################################################
-# L I S T   A L L   P R O D U C T S
+# L I S T   P R O D U C T S
 ######################################################################
 @app.route("/products", methods=["GET"])
-def list_all_products():
+def list_products():
     """
-    List all products in database
+    List products in database.
+    Filters can be used (e. g. name, availability, ...).
+    According to the task, it should not be implicitly possible to use several filters at once.
+    And no filter with multiple values (e. g. name = Christian or Janice)
+    I have to use the various available methods of the Product class.
     """
-    app.logger.info("Request to List all Products...")
-    product_list = Product.all()
-    if len(product_list) == 0:
-        app.logger.info("**No** products in database.")
-        response_status = status.HTTP_204_NO_CONTENT
-        message = []
+    app.logger.info("Request to List Products...")
+    product_list = []
+    filter_name = request.args.get("name")
+
+    if filter_name:
+        app.logger.info("Fetch products with name %s from database.", filter_name)
+        product_list = Product.find_by_name(filter_name)
     else:
-        app.logger.info("Found products in database.")
+        app.logger.info("Fetch all products from database")
+        product_list = Product.all()
+
+    # TODO: Implement filter: product category  # pylint: disable=W0511
+    # TODO: Implement filter: product availability  # pylint: disable=W0511
+    logging.debug("Filter name: %s", filter_name)
+    logging.debug("data product_list: %s", product_list)
+    logging.debug("All products: %s", Product.all())
+    # TODO: Bugfix: SELECT-Statement instead of Product list in Product.find_by_name(...).
+    # Waiting for IBM response why I'm getting SELECT-Statement instead of
+    # list of products in Product.find_by_name(...)
+
+    # Create response object
+    if len(product_list) == 0:
+        app.logger.info("**No** products found.")
+        response_status = status.HTTP_204_NO_CONTENT
+        message = product_list
+    else:
+        app.logger.info("Products found.")
         response_status = status.HTTP_200_OK
         message = [product.serialize() for product in product_list]
 
     return jsonify(message), response_status
-
-
-######################################################################
-# L I S T   B Y   A V A I L A B I L I T Y
-######################################################################
-# TODO: Implement  # pylint: disable=W0511
-
-
-######################################################################
-# L I S T   B Y   C A T E G O R Y
-######################################################################
-# TODO: Implement  # pylint: disable=W0511
-
-
-######################################################################
-# L I S T   B Y   N A M E
-######################################################################
-# TODO: Implement  # pylint: disable=W0511
 
 
 ######################################################################
