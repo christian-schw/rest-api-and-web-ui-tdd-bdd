@@ -332,16 +332,37 @@ class TestProductRoutes(TestCase):
     # ----------------------------------------------------------
     def test_list_by_category(self):
         """It should return a list of products with requested category"""
-        # TODO: Implement  # pylint: disable=W0511
-        self.assertEqual(0, 1)
+        products = self._create_products(20)
+        # Use category of first product as a baseline for validation
+        first_product_category = products[0].category
+        response = self.client.get(
+            BASE_URL,
+            query_string=f"category={quote_plus(first_product_category)}"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response_data = response.get_json()
+        # Compare number of occurrences
+        expected_occurrences = 0
+        for product in products:
+            if product.category == first_product_category:
+                expected_occurrences += 1
+        self.assertEqual(len(response_data), expected_occurrences)
+        # Every product from query should have the requested category
+        for product in response_data:
+            self.assertEqual(product["category"], first_product_category)
 
     def test_list_by_category_no_products_found(self):
         """
         It should return no list but a status code
         when no products with requested category found
         """
-        # TODO: Implement  # pylint: disable=W0511
-        self.assertEqual(0, 1)
+        test_category = "blabla"
+        response = self.client.get(
+            BASE_URL,
+            query_string=f"category={quote_plus(test_category)}"
+        )
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(response.get_data()), 0)
 
     # ----------------------------------------------------------
     # TESTS: List by availability
