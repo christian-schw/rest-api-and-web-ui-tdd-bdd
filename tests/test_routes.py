@@ -31,7 +31,7 @@ from unittest import TestCase
 from urllib.parse import quote_plus
 from service import app
 from service.common import status
-from service.models import db, init_db, Product
+from service.models import db, init_db, Product, Category
 from tests.factories import ProductFactory
 
 # Disable all but critical errors during normal test run
@@ -337,7 +337,7 @@ class TestProductRoutes(TestCase):
         first_product_category = products[0].category
         response = self.client.get(
             BASE_URL,
-            query_string=f"category={quote_plus(first_product_category)}"
+            query_string=f"category={quote_plus(first_product_category.name)}"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_data = response.get_json()
@@ -349,14 +349,14 @@ class TestProductRoutes(TestCase):
         self.assertEqual(len(response_data), expected_occurrences)
         # Every product from query should have the requested category
         for product in response_data:
-            self.assertEqual(product["category"], first_product_category)
+            self.assertEqual(product["category"], first_product_category.name)
 
     def test_list_by_category_no_products_found(self):
         """
         It should return no list but a status code
         when no products with requested category found
         """
-        test_category = "blabla"
+        test_category = Category.UNKNOWN.name
         response = self.client.get(
             BASE_URL,
             query_string=f"category={quote_plus(test_category)}"
