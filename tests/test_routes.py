@@ -295,8 +295,8 @@ class TestProductRoutes(TestCase):
     # ----------------------------------------------------------
     def test_list_by_name(self):
         """It should return a list of products with requested name"""
-        products = self._create_products(10)
-        # First name used as a baseline for validation
+        products = self._create_products(20)
+        # Use name of first product as a baseline for validation
         first_product_name = products[0].name
         response = self.client.get(
             BASE_URL,
@@ -304,7 +304,12 @@ class TestProductRoutes(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_data = response.get_json()
-        self.assertEqual(len(response_data), len(products))
+        # Compare number of occurrences
+        expected_occurrences = 0
+        for product in products:
+            if product.name == first_product_name:
+                expected_occurrences += 1
+        self.assertEqual(len(response_data), expected_occurrences)
         # Every product from query should have the requested name
         for product in response_data:
             self.assertEqual(product["name"], first_product_name)

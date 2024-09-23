@@ -18,7 +18,6 @@
 """
 Product Store Service with UI
 """
-import logging
 from flask import jsonify, request, abort
 from flask import url_for  # noqa: F401 pylint: disable=unused-import
 from service.models import Product
@@ -113,19 +112,13 @@ def list_products():
 
     if filter_name:
         app.logger.info("Fetch products with name %s from database.", filter_name)
-        product_list = Product.find_by_name(filter_name)
+        product_list = Product.find_by_name(filter_name).all()
     else:
         app.logger.info("Fetch all products from database")
         product_list = Product.all()
 
     # TODO: Implement filter: product category  # pylint: disable=W0511
     # TODO: Implement filter: product availability  # pylint: disable=W0511
-    logging.debug("Filter name: %s", filter_name)
-    logging.debug("data product_list: %s", product_list)
-    logging.debug("All products: %s", Product.all())
-    # TODO: Bugfix: SELECT-Statement instead of Product list in Product.find_by_name(...).
-    # Waiting for IBM response why I'm getting SELECT-Statement instead of
-    # list of products in Product.find_by_name(...)
 
     # Create response object
     if len(product_list) == 0:
