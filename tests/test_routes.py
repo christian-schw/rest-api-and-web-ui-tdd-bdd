@@ -369,16 +369,37 @@ class TestProductRoutes(TestCase):
     # ----------------------------------------------------------
     def test_list_by_availability(self):
         """It should return a list of products with requested availability"""
-        # TODO: Implement  # pylint: disable=W0511
-        self.assertEqual(0, 1)
+        products = self._create_products(20)
+        # Use availability of first product as a baseline for validation
+        first_product_availability = products[0].available
+        response = self.client.get(
+            BASE_URL,
+            query_string=f"available={quote_plus(str(first_product_availability))}"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response_data = response.get_json()
+        # Compare number of occurrences
+        expected_occurrences = 0
+        for product in products:
+            if product.available == first_product_availability:
+                expected_occurrences += 1
+        self.assertEqual(len(response_data), expected_occurrences)
+        # Every product from query should have the requested availability
+        for product in response_data:
+            self.assertEqual(product["available"], first_product_availability)
 
     def test_list_by_availability_no_products_found(self):
         """
         It should return no list but a status code
         when no products with requested availability found
         """
-        # TODO: Implement  # pylint: disable=W0511
-        self.assertEqual(0, 1)
+        test_available = False
+        response = self.client.get(
+            BASE_URL,
+            query_string=f"available={quote_plus(str(test_available))}"
+        )
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(response.get_data()), 0)
 
     ######################################################################
     # Utility functions
