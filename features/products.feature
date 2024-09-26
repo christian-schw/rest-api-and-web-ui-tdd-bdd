@@ -121,4 +121,11 @@ Scenario: Searching a Product based on Availability
     Then I should see the message "Success"
     And I should see "Shoes" in the results
 
-# TODO: Add scenario: Searching a Product based on Name
+Scenario: Searching a Product based on Name
+    When I visit the "Home Page"
+    And I press the "Clear" button
+    And I set the "Name" to "Big Mac"
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Big Mac" in the "Name" field
+    And I should see "1/4 lb burger" in the "Description" field
