@@ -113,5 +113,12 @@ Scenario: Searching a Product based on Category
     And I should see "Hat" in the results
     And I should see "Shoes" in the results
 
-# TODO: Add scenario: Searching a Product based on Availability
+Scenario: Searching a Product based on Availability
+    When I visit the "Home Page"
+    And I press the "Clear" button
+    And I set the "Available" to "False"
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Shoes" in the results
+
 # TODO: Add scenario: Searching a Product based on Name
