@@ -94,7 +94,16 @@ Scenario: Delete a Product
     And I press the "Retrieve" button
     Then I should see the message "Product does not exist!"
 
-# TODO: Add scenario: Listing all products
+Scenario: Listing all Products
+    When I visit the "Home Page"
+    And I press the "Clear" button
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Hat" in the results
+    And I should see "Shoes" in the results
+    And I should see "Big Mac" in the results
+    And I should see "Sheets" in the results
+
 # TODO: Add scenario: Searching a Product based on Category
 # TODO: Add scenario: Searching a Product based on Availability
 # TODO: Add scenario: Searching a Product based on Name
