@@ -63,14 +63,8 @@ def step_impl(context, text_string):
 
 @then('I should see "{text_string}" in the results')
 def step_impl(context, text_string):
-    element_id = 'search_results'
-    found = WebDriverWait(context.driver, context.wait_seconds).until(
-        expected_conditions.text_to_be_present_in_element(
-            (By.ID, element_id),
-            text_string
-        )
-    )
-    assert(found)
+    element = context.driver.find_element_by_id('search_results')
+    assert(text_string in element.text)
 
 @then('I should not see "{text_string}" in the results')
 def step_impl(context, text_string):

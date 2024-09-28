@@ -58,8 +58,9 @@ def step_impl(context):
             "name": row['name'],
             "description": row['description'],
             "price": row['price'],
-            # Add "in [...]". Otherwise TypeError Boolean in requests.post(...) below.
-            "available": row['available'] in ['True', 'true', '1'], 
+            # Add "in [...]" to check against string values and return Boolean.
+            # Otherwise TypeError Boolean in requests.post(...) below.
+            "available": row['available'] in ['True', 'true', '1'],
             "category": row['category']
         }
 

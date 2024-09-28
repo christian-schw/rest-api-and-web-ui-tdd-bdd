@@ -87,12 +87,13 @@ Scenario: Delete a Product
     Then I should see the message "Success"
     And I should see "A red fedora" in the "Description" field
     When I copy the "Id" field
-    And I press the "Delete" button
-    Then I should see the message "Success"
-    When I press the "Clear" button
+    And I press the "Clear" button
     And I paste the "Id" field
-    And I press the "Retrieve" button
-    Then I should see the message "Product does not exist!"
+    And I press the "Delete" button
+    And I press the "Clear" button
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should not see "Hat" in the results
 
 Scenario: Listing all Products
     When I visit the "Home Page"
