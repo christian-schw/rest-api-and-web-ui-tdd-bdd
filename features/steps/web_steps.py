@@ -65,7 +65,7 @@ def step_impl(context, text_string):
 def step_impl(context, text_string):
     element_id = 'search_results'
     found = WebDriverWait(context.driver, context.wait_seconds).until(
-        expected_conditions.text_to_be_present_in_element_value(
+        expected_conditions.text_to_be_present_in_element(
             (By.ID, element_id),
             text_string
         )
@@ -76,7 +76,7 @@ def step_impl(context, text_string):
 def step_impl(context, text_string):
     element_id = 'search_results'
     found = WebDriverWait(context.driver, context.wait_seconds).until(
-        expected_conditions.text_to_be_present_in_element_value(
+        expected_conditions.text_to_be_present_in_element(
             (By.ID, element_id),
             text_string
         )
