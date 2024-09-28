@@ -61,6 +61,16 @@ def step_impl(context, text_string):
     )
     assert(found)
 
+@then('I should see "{text_string}" in the results')
+def step_impl(context, text_string):
+    # TODO: Implement pylint:disable=W0511
+    ...
+
+@then('I should not see "{text_string}" in the results')
+def step_impl(context, text_string):
+    # TODO: Implement pylint:disable=W0511
+    ...
+
 @when('I set the "{element_name}" to "{text_string}"')
 def step_impl(context, element_name, text_string):
     element_id = ID_PREFIX + element_name.lower().replace(' ', '_')
