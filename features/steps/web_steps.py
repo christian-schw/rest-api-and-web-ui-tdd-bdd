@@ -99,12 +99,19 @@ def step_impl(context, element_name):
 ##################################################################
 # This code works because of the following naming convention:
 # The buttons have an id in the html hat is the button text
-# in lowercase followed by '-btn' so the Clean button has an id of
+# in lowercase followed by '-btn' so the Clear button has an id of
 # id='clear-btn'. That allows us to lowercase the name and add '-btn'
 # to get the element id of any button
 ##################################################################
-
-## UPDATE CODE HERE ##
+@when('I press the "{element_name}" button')
+def step_impl(context, element_name):
+    element_id = f"{element_name.lower()}-btn"
+    element = WebDriverWait(context.driver, context.wait_seconds).until(
+        expected_conditions.presence_of_element_located(
+            (By.ID, element_id)
+        )
+    )
+    element.click()
 
 ##################################################################
 # This code works because of the following naming convention:
@@ -112,7 +119,6 @@ def step_impl(context, element_name):
 # prefixed by ID_PREFIX so the Name field has an id='pet_name'
 # We can then lowercase the name and prefix with pet_ to get the id
 ##################################################################
-
 @then('I should see "{text_string}" in the "{element_name}" field')
 def step_impl(context, text_string, element_name):
     element_id = ID_PREFIX + element_name.lower().replace(' ', '_')
