@@ -12,12 +12,14 @@ These should be expanded with the help of test-driven and behavior-driven develo
 <br>
 
 
+
 ## Course Information
 Title: Test and Behavior Driven Development (TDD/BDD)<br>
 Type: Final Project<br>
 Course Provider: IBM<br>
 <br>
 <br>
+
 
 
 ## Information about the Project
@@ -32,16 +34,23 @@ Course Provider: IBM<br>
 - Result: Functioning API and web user interface created. Significantly improved understanding of APIs, Flask, Test-Driven and Behavior-Driven Development.
 <br>
 
+### Tech Stack
+- HTML
+- CSS
+- JavaScript
+- Python
+- GitHub
+- Python Testing Framework: Unittest / Nose
+- Python BDD Framework: Behave
+- Python Web Framework: Flask
+- Static Code Analysis: PyLint
+- IBM Cloud IDE
+<br>
+<br>
 
-This repository is to be used as a template to create your own repository in your own GitHub account. No need to Fork it as it has been set up as a Template. This will avoid confusion when making Pull Requests in the future.
 
-From the GitHub **Code** page, press the green **Use this template** button to create your own repository from this template. 
-
-Name your repo: `tdd-bdd-final-project`.
-
-## Setup
-
-After entering the lab environment you will need to run the `setup.sh` script in the `./bin` folder to install the prerequisite software.
+## Getting Started
+After copying the repository you will need to run the `setup.sh` script in the `./bin` folder to install the prerequisite software.
 
 ```bash
 bash bin/setup.sh
@@ -52,27 +61,10 @@ Then you must exit the shell and start a new one for the Python virtual environm
 ```bash
 exit
 ```
+<br>
+<br>
 
-## Tasks
 
-In this project you will use good Test Driven Development (TDD) and Behavior Driven Development (BDD) techniques to write TDD test cases, BDD scenarios, and code, updating the following files:
 
-```bash
-tests/test_models.py
-tests/test_routes.py
-service/routes.py
-features/products.feature
-features/steps/load_steps.py
-```
-
-You will be given partial implementations in each of these files to get you started. Use those implementations as examples of the code you should write.
-
-## License
-
-Licensed under the Apache License. See [LICENSE](/LICENSE)
-
-## Author
-
-John Rofrano, Senior Technical Staff Member, DevOps Champion, @ IBM Research
-
-## <h3 align="center"> © IBM Corporation 2023. All rights reserved. <h3/>
+## Contact
+If you have any questions, please feel free to reach out via email: christian-schwanse (at) gmx.net
