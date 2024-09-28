@@ -66,7 +66,7 @@ Scenario: Update a Product
     And I should see "Cloths" in the "Category" dropdown
     And I should see "120.50" in the "Price" field
     When I set the "Price" to "40.50"
-    And I set the "Available" to "True"
+    And I select "True" in the "Available" dropdown
     And I press the "Update" button
     Then I should see the message "Success"
     When I copy the "Id" field
@@ -107,7 +107,7 @@ Scenario: Listing all Products
 Scenario: Searching a Product based on Category
     When I visit the "Home Page"
     And I press the "Clear" button
-    And I set the "Category" to "Cloths"
+    And I select "Cloths" in the "Category" dropdown
     And I press the "Search" button
     Then I should see the message "Success"
     And I should see "Hat" in the results
@@ -118,7 +118,7 @@ Scenario: Searching a Product based on Category
 Scenario: Searching a Product based on Availability
     When I visit the "Home Page"
     And I press the "Clear" button
-    And I set the "Available" to "False"
+    And I select "False" in the "Available" dropdown
     And I press the "Search" button
     Then I should see the message "Success"
     And I should see "Shoes" in the results
