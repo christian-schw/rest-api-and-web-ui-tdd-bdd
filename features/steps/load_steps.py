@@ -22,6 +22,7 @@ Steps file for products.feature
 For information on Waiting until elements are present in the HTML see:
     https://selenium-python.readthedocs.io/waits.html
 """
+import logging
 import requests
 from behave import given
 
@@ -38,9 +39,15 @@ def step_impl(context):
     #
     rest_endpoint = f"{context.base_url}/products"
     context.resp = requests.get(rest_endpoint)
-    assert(context.resp.status_code == HTTP_200_OK)
-    for product in context.resp.json():
-        context.resp = requests.delete(f"{rest_endpoint}/{product['id']}")
+
+    # There were products in the database -> Delete them
+    if context.resp.status_code == HTTP_200_OK:
+        for product in context.resp.json():
+            # Add product as json. Otherwise Error: Wrong Content Type
+            context.resp = requests.delete(f"{rest_endpoint}/{product['id']}", json=product)
+            assert(context.resp.status_code == HTTP_204_NO_CONTENT)
+    # There were **no** products in the database
+    else:
         assert(context.resp.status_code == HTTP_204_NO_CONTENT)
 
     #
@@ -51,7 +58,8 @@ def step_impl(context):
             "name": row['name'],
             "description": row['description'],
             "price": row['price'],
-            "available": row['available'],
+            # Add "in [...]". Otherwise TypeError Boolean in requests.post(...) below.
+            "available": row['available'] in ['True', 'true', '1'], 
             "category": row['category']
         }
 
