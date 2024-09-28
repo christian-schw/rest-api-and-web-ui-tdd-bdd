@@ -1,4 +1,4 @@
-# TDD & BDD: REST-API and Web UI
+# TDD & BDD: REST API and Web UI
 
 <img width="960" alt="final-product-ui" src="https://github.com/user-attachments/assets/4d845626-fc17-4a98-af7a-af2392c5e196">
 
