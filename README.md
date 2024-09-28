@@ -1,8 +1,37 @@
-# TDD / BDD Final Project Template
+# TDD & BDD: REST-API and Web UI
 
-This repository contains the template to be used for the Final Project for the Coursera course **Introduction to TDD/BDD**.
+<img width="960" alt="final-product-ui" src="https://github.com/user-attachments/assets/4d845626-fc17-4a98-af7a-af2392c5e196">
 
-## Usage
+This repository was created as part of IBM's "Test and Behavior Driven Development (TDD/BDD)" course.<br>
+<br>
+The application was about product catalog administration.<br>
+<br>
+Among other things, a REST API and a web user interface (UI) were used within the application.<br>
+These should be expanded with the help of test-driven and behavior-driven development (TDD & BDD).<br>
+<br>
+<br>
+
+
+## Course Information
+Title: Test and Behavior Driven Development (TDD/BDD)<br>
+Type: Final Project<br>
+Course Provider: IBM<br>
+<br>
+<br>
+
+
+## Information about the Project
+### General
+- Client: Myself
+- Project Goal: Expand the REST API and web user interface of a product catalog administration application. Practice working with APIs, Python Webframework Flask, Test-Driven and Behavior-Driven Development.
+- Number of Project Participants: 1 (Used template repository of IBM. Developed the rest on my own)
+- Time Period: September, 2024
+- Industry / Area: Web Development
+- Role: Developer
+- Languages: English
+- Result: Functioning API and web user interface created. Significantly improved understanding of APIs, Flask, Test-Driven and Behavior-Driven Development.
+<br>
+
 
 This repository is to be used as a template to create your own repository in your own GitHub account. No need to Fork it as it has been set up as a Template. This will avoid confusion when making Pull Requests in the future.
 
