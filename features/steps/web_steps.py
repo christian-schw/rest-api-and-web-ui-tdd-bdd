@@ -50,6 +50,17 @@ def step_impl(context, text_string):
     element = context.driver.find_element(By.TAG_NAME, 'body')
     assert(text_string not in element.text)
 
+@then('I should see the message "{text_string}"')
+def step_impl(context, text_string):
+    element_id = 'flash_message'
+    found = WebDriverWait(context.driver, context.wait_seconds).until(
+        expected_conditions.text_to_be_present_in_element_value(
+            (By.ID, element_id),
+            text_string
+        )
+    )
+    assert(found)
+
 @when('I set the "{element_name}" to "{text_string}"')
 def step_impl(context, element_name, text_string):
     element_id = ID_PREFIX + element_name.lower().replace(' ', '_')
@@ -105,7 +116,7 @@ def step_impl(context, element_name):
 ##################################################################
 @when('I press the "{element_name}" button')
 def step_impl(context, element_name):
-    element_id = f"{element_name.lower()}-btn"
+    element_id = f'{element_name.lower()}-btn'
     element = WebDriverWait(context.driver, context.wait_seconds).until(
         expected_conditions.presence_of_element_located(
             (By.ID, element_id)
